@@ -14,7 +14,7 @@ import java.util.Collection;
  * @version 1.2
  *
  */
-public class ThisIsHowThingsShouldNotBeDone {
+final class ThisIsHowThingsShouldNotBeDone {
 
     /*
      * PMD complains:
@@ -26,11 +26,12 @@ public class ThisIsHowThingsShouldNotBeDone {
      * extended (it is an utility class)
      * 
      * 
-     * Checkstyle complains:
+     * @Checkstyle complains:
      * 
      * This class should not have a public or default constructor
      */
-
+    private ThisIsHowThingsShouldNotBeDone() {
+    };
     /*
      * PMD complains:
      * 
@@ -43,13 +44,13 @@ public class ThisIsHowThingsShouldNotBeDone {
      * 
      * Missing Javadoc
      */
-    public static void main(String[] a) {
+    public static void main(final String[] a) {
         /*
          * PMD Complains:
          * 
          * this variable should be final!
          */
-        Collection<Object> c = new ArrayList<>();
+        final Collection<Object> c = new ArrayList<>();
         /*
          * PMD complains:
          * 
@@ -61,8 +62,9 @@ public class ThisIsHowThingsShouldNotBeDone {
          * 
          * What does it mean "43"? It's a magic number!
          */
-        for (int i = 0; i < 43; i++)
+        for (int i = 0; i < 43; i++) {
             c.add(new Object());
+        }
         /*
          * FindBugs complains
          * 

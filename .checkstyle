@@ -4,6 +4,7 @@
   <local-check-config name="labo06" location="config/checkstyle/checkstyle.xml" type="project" description="">
     <additional-data name="protect-config-file" value="false"/>
   </local-check-config>
+  <local-check-config name="test" location="internal_config_1605625247033.xml" type="internal" description=""/>
   <fileset name="all" enabled="true" check-config-name="labo06" local="true">
     <file-match-pattern match-pattern="." include-pattern="true"/>
   </fileset>
