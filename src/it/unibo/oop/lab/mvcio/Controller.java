@@ -1,5 +1,12 @@
 package it.unibo.oop.lab.mvcio;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import javax.swing.JOptionPane;
+
 /**
  * 
  */
@@ -27,5 +34,63 @@ public class Controller {
      * System.getProperty("file.separator"). The combined use of those methods leads
      * to a software that runs correctly on every platform.
      */
+    private static final String HOME = System.getProperty("user.home");
+    private static final String SEPARATOR = System.getProperty("file.separator");
+    private static final String DEFAULT_OUTPUT = "output.txt";
+    private File currentFile = new File(HOME + SEPARATOR + DEFAULT_OUTPUT);
+    /*
+     * methods
+     */
+    /**
+     * Builds a new {@link Controller} without parameters.
+     */
+    public Controller() { }
+    /**
+     * Builds a new {@link Controller}.
+     * 
+     * @param file 
+     */
+    public Controller(final File file) {
+        this.currentFile = file;
+    }
+    /**
+     * File setter.
+     * 
+     * @param file
+     */
+    public void setCurrentFile(final File file) {
+        if (file != null) {
+            this.currentFile = file;
+        } 
+    }
+    /**
+     * File getter.
+     * Doesn't check if @currentFile is null
+     * 
+     * @return currentFile
+     */
+    public File getCurrentFile() {
+        return this.currentFile;
+    }
+    /**
+     * File path getter.
+     * 
+     * @return currentFile path using {@link java.io.File.getPath}
+     */
+    public String getFilePath() {
+        return this.currentFile.getPath(); 
+    }
+    /**
+     * Saves the input string into the file.
+     * 
+     * @param input
+     * 
+     * @throws IOException if 
+     */
+    public void saveInput(final String input) throws IOException {
+        try (PrintStream ps = new PrintStream(this.getFilePath())) {
+            ps.print(input);
+        }
+    }
 
 }
