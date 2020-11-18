@@ -38,21 +38,6 @@ public class Controller {
     private static final String SEPARATOR = System.getProperty("file.separator");
     private static final String DEFAULT_OUTPUT = "output.txt";
     private File currentFile = new File(HOME + SEPARATOR + DEFAULT_OUTPUT);
-    /*
-     * methods
-     */
-    /**
-     * Builds a new {@link Controller} without parameters.
-     */
-    public Controller() { }
-    /**
-     * Builds a new {@link Controller}.
-     * 
-     * @param file 
-     */
-    public Controller(final File file) {
-        this.currentFile = file;
-    }
     /**
      * File setter.
      * 
