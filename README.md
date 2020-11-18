@@ -11,3 +11,6 @@ Solve the exercises in order:
 4. mvcio2
 5. mvc
 6. advanced
+
+(lines added from fork user: jackmounts)
+Resolved problem in commit bd8b278: '%' char signify lack of newline in the saved file. No changes on that matter were made to the file.
