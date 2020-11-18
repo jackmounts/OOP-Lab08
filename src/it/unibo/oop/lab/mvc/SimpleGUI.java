@@ -1,9 +1,18 @@
 package it.unibo.oop.lab.mvc;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * A very simple program using a graphical interface.
@@ -11,7 +20,8 @@ import javax.swing.JFrame;
  */
 public final class SimpleGUI {
 
-    private final JFrame frame = new JFrame();
+    private static final String TITLE = "SimpleGUI - mcv";
+    private final JFrame frame = new JFrame(SimpleGUI.TITLE);
 
     /*
      * Once the Controller is done, implement this class in such a way that:
@@ -38,7 +48,55 @@ public final class SimpleGUI {
      * builds a new {@link SimpleGUI}.
      */
     public SimpleGUI() {
-
+        final SimpleController controller = new SimpleController();
+        final JPanel canvas = new JPanel();
+        canvas.setLayout(new BorderLayout());
+        final JTextField textField = new JTextField();
+        canvas.add(textField, BorderLayout.NORTH);
+        final JTextArea logArea = new JTextArea();
+        logArea.setEditable(false);
+        canvas.add(logArea, BorderLayout.CENTER);
+        final JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+        canvas.add(buttonPanel, BorderLayout.SOUTH);
+        final JButton print = new JButton("Print");
+        buttonPanel.add(print);
+        final JButton showHistory = new JButton("Show History");
+        buttonPanel.add(showHistory);
+        frame.setContentPane(canvas);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /*
+         * Action listeners
+         */
+        print.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                try {
+                    controller.setNextStringToPrint(textField.getText());
+                    controller.printString();
+                    textField.setText("");  // could'nt find a better way to clear in JTextField doc ...
+                } catch (IllegalStateException e1) {
+                    JOptionPane.showMessageDialog(frame, e1, "Error", JOptionPane.ERROR_MESSAGE);
+                    e1.printStackTrace();
+                }
+            }
+        });
+        showHistory.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                final StringBuilder log = new StringBuilder("Log:"); // could'nt find a better way to append in a single line
+                log.append(System.getProperty("line.separator"));    // without getting warnings
+                for (final String string : controller.getHistoryLogList()) {
+                    log.append(string).append(System.getProperty("line.separator"));
+                }
+                /*
+                 * From StringBuilder doc: 
+                 *      @return  the value {@code 0} if this {@code StringBuilder} contains the same
+                 *      character sequence as that of the argument
+                 */
+                logArea.setText(log.toString());
+            }
+        });
         /*
          * Make the frame half the resolution of the screen. This very method is
          * enough for a single screen setup. In case of multiple monitors, the
@@ -60,6 +118,15 @@ public final class SimpleGUI {
          * on screen. Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        frame.setVisible(true);
     }
+    /**
+     * Main functions for class.
+     * 
+     * @param args ignored
+     */
+    public static void main(final String... args) {
+        new SimpleGUI();
+     }
 
 }
